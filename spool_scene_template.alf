@@ -1,0 +1,16 @@
+Job -title {080_SCENE_FX_VOLUME_003.ma} -projects {{instinct}} -priority {5.0} -service {PixarRender} -envkey {{rfm-24.3} {maya-2022}} -cleanup {
+  RemoteCmd {{TractorBuiltIn} {File} {delete} {%D(//path/to/spool_scene_template.alf)}}
+} -dirmaps {
+  {{/myserver/} {Z:/} UNC}
+} -serialsubtasks 1 -subtasks {
+  Task {Pre-Render TxMake Tasks} -serialsubtasks 0
+  Task {Render 080_SCENE_FX_VOLUME_003.ma} -serialsubtasks 1 -subtasks {
+    
+    Task {Render Layer: rs_FISH Camera: CAM_sh0080Shape} -serialsubtasks 0 -subtasks {
+      Task {Render 080_SCENE_FX_VOLUME_003.ma Frame: 1001 Layer: rs_FISH Camera: CAM_sh0080Shape (prman)} -cmds {
+        RemoteCmd {{prman} {-Progress} {-t:0} {-cwd} {%D(//gandalf/3d4_21_22/instinct/05_shot/080/maya/)} {%D(//gandalf/3d4_21_22/instinct/05_shot/080/maya/renderman/rib/080_SCENE_FX_VOLUME_003/v001_t01/CAM_sh0080ShapeFISH.1001.rib)}} -service {PixarRender}
+      } -preview {{sho} {//minerva/3d4_21_22/instinct/05_shot/080/DEF/080_R_07_19_FX/080_FISH_CAM_sh0080Shape_beauty.1001.exr}}
+    }
+    Task {Denoise Layer: rs_FISH Camera: CAM_sh0080Shape} -serialsubtasks 0
+  }
+}
